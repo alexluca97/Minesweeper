@@ -1,6 +1,8 @@
-
+#include<stdlib.h>
 #include<iostream>
 #include<conio.h>
+#include<iomanip>
+
 
 using namespace std;
 int a[100][100];
@@ -50,13 +52,25 @@ int main(int argc, char* argv[])
 {
 	char red[] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };
 	char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
-	
-	int i, j;
-	int q, r;
-	cout << "DATI N=";
-	cin >> n;
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++)
-			b[i][j] = 'O';
+	int q = arrow();
+		switch (q)
+		{
+		case 1:
+			break;
+		case 2:
+			i++;
+			break;
+		case 3:
+			i--;
+			break;
+		case 4:
+			j--;
+			break;
+		case 5:
+			j++;
+			break;
+		case 6:
+			break;
+		}
 }
 
