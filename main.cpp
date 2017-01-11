@@ -2,16 +2,14 @@
 #include<iostream>
 #include<conio.h>
 #include<iomanip>
-
-
 using namespace std;
 int a[100][100];
 char b[100][100];
 int arrow()
 {
 	int i;
-	i=getch();
-	if (i == 224)i=getch();
+	i=_getch();
+	if (i == 224)i=_getch();
 	switch (i)
 	{
 	case 13:
@@ -47,11 +45,33 @@ void bmbselect(int i,int j)
 		if (i > 0 && j > 0 && a[i - 1][j - 1] == -1)a[i][j]++;
 	}
 }
-
+void lee(int i, int j)
+{
+	if (a[i][j] == -1 || b[i][j]!='O' || j<0 || i<0 || j>=n || i>=n);
+	else
+	{
+		if (a[i][j] == 0)
+		{
+			b[i][j] = ' ';
+			lee(i + 1, j);
+			lee(i - 1, j);
+			lee(i, j + 1);
+			lee(i, j - 1);
+			lee(i + 1, j + 1);
+			lee(i + 1, j - 1);
+			lee(i - 1, j + 1);
+			lee(i - 1, j - 1);
+		}
+		else
+			b[i][j] = (char)(a[i][j] + 48);
+	}
+}
 int main(int argc, char* argv[])
 {
 	char red[] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };
 	char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
+
+
 	int i, j;
 	int q, r;
 	cout << "DATI N=";
@@ -71,9 +91,46 @@ int main(int argc, char* argv[])
 		}
 		a[q][r] = -1;
 	}
-	
-	
-	int q = arrow();
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			bmbselect(i, j);
+	system("cls");
+	int ok = 0;
+	i = 0; j = 0;
+	int p, k;
+	int flags = 0, correctflags = 0;
+	while (!ok)
+	{
+		system("cls");
+		if (flags == correctflags && flags == bmb)
+		{
+			ok = 1;
+			for (p = 0; p < n; p++)
+				for (k = 0; k < n; k++)
+					if (b[p][k] == 'O')
+					{
+						ok = 0;
+					}
+			if (ok)
+			{
+
+				cout << "You win" << '\n';
+
+			}
+		}
+		for (p = 0; p < n; p++)
+		{
+			for (k = 0; k < n; k++)
+			{
+				if (p == i && k == j)
+					cout << "|";
+				else
+					cout << ' ';
+				cout << b[p][k] << " ";
+			}
+			cout << '\n';
+		}
+		int q = arrow();
 		switch (q)
 		{
 		case 1:
@@ -93,5 +150,52 @@ int main(int argc, char* argv[])
 		case 6:
 			break;
 		}
-}
+		if (i == n)i = n - 1;
+		if (j == n)j = n - 1;
+		if (j < 0)j = 0;
+		if (i < 0)i = 0;
+		if (q == 1 && a[i][j] == -1 && b[i][j] == 'O')
+		{
+			system("cls");
+			cout << "YOU DIED" << '\n';
+			b[i][j] = '*';
+			for (p = 0; p < n; p++)
+			{
+				for (k = 0; k < n; k++)
+					if (a[p][k] == -1)
+					{
 
+						cout <<red<< "  B" << normal;
+
+					}
+					else if (a[p][k] == 0)
+						cout << "   ";
+					else if (a[p][k] > 0)
+						cout << "  " << a[p][k];
+					else
+						cout << "  " << b[p][k];
+				cout << '\n';
+			}
+			return 0;
+		}
+		if (q == 1 && b[i][j]!='?')
+			lee(i, j);
+		if (q == 6)
+		{
+			if (b[i][j] == '?')
+			{
+				if (a[i][j]==-1)
+					correctflags--;
+				b[i][j] = 'O';
+				flags--;
+			}
+			else
+			{
+				if (a[i][j] == -1)
+					correctflags++;
+				b[i][j] = 'B';
+				flags++;
+			}
+		}
+	}
+}

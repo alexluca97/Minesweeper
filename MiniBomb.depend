@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1483272533 source:e:\info ip\proiect ip\minesweeper\minibomb\main.cpp
+	<conio.h>
+	<iostream>
+	<stdio.h>
+	<conio.h>
+
+1484157124 source:c:\users\alexandru luca\documents\github\minesweeper\minesweeper\minibomb\main.cpp
+	<stdlib.h>
+	<iostream>
+	<conio.h>
+	<iomanip>
+
