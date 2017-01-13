@@ -1,15 +1,16 @@
-#include<stdlib.h>
-#include<iostream>
-#include<conio.h>
-#include<iomanip>
+#include <stdlib.h>
+#include <iostream>
+#include <conio.h>
+#include <iomanip>
+#include <windows.h>
 using namespace std;
 int a[100][100];
 char b[100][100];
 int arrow()
 {
 	int i;
-	i=_getch();
-	if (i == 224)i=_getch();
+	i=getch();
+	if (i == 224)i=getch();
 	switch (i)
 	{
 	case 13:
@@ -63,15 +64,82 @@ void lee(int i, int j)
 			lee(i - 1, j - 1);
 		}
 		else
-			b[i][j] = (char)(a[i][j] + 48);
+			b[i][j] = (char)(a[i][j]+48);
 	}
 }
 int main(int argc, char* argv[])
 {
-	char red[] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };
+    	string Menu[3] = {"Start Game", "Options", "Exit"};
+	int pointer = 0;
+
+	while(true)
+	{
+		system("cls");
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+		cout << "Main Menu\n\n";
+
+		for (int i = 0; i < 3; ++i)
+		{
+			if (i == pointer)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+				cout << Menu[i] << endl;
+			}
+			else
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+				cout << Menu[i] << endl;
+			}
+		}
+
+		while(true)
+		{
+			if (GetAsyncKeyState(VK_UP) != 0)
+			{
+				pointer -= 1;
+				if (pointer == -1)
+				{
+					pointer = 2;
+				}
+				break;
+			}
+			else if (GetAsyncKeyState(VK_DOWN) != 0)
+			{
+				pointer += 1;
+				if (pointer == 3)
+				{
+					pointer = 0;
+				}
+				break;
+			}
+			else if (GetAsyncKeyState(VK_RETURN) != 0)
+			{
+				switch (pointer)
+				{
+					case 0:
+					{
+						cout << "\n\n\nStarting new game...";
+						Sleep(1000);
+					} break;
+					case 1:
+					{
+						cout << "\n\n\nThis is the options...";
+						Sleep(1000);
+					} break;
+					case 2:
+					{
+						return 0;
+					} break;
+				}
+				break;
+			}
+		}
+
+		Sleep(150);
+	}
+char red[] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };
 	char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
-
-
 	int i, j;
 	int q, r;
 	cout << "DATI N=";
@@ -199,3 +267,4 @@ int main(int argc, char* argv[])
 		}
 	}
 }
+
