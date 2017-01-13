@@ -68,9 +68,8 @@ void lee(int i, int j)
 			b[i][j] = (char)(a[i][j]+48);
 	}
 }
-int main(int argc, char* argv[])
+int Menu()
 {
-    srand(time(NULL));
     string Menu[2] = {"Start Game", "Exit"};
 	int pointer = 0;
 
@@ -121,82 +120,170 @@ int main(int argc, char* argv[])
 				{
 					case 0:
 					{
-					    cout<<endl;
-                        cout<<"\n\nHow much do you think that you can do it?";
-                        cout<< "\nN=";
-                        cin>>n;
-                        while(n<4)
-                        {
-                            cout<<"To low, try a bigger number\n";
-                            cin>>n;
-                        }
-                        if(n<8)
-                        {
-                            cout<<"That's child mode...";
-                            Sleep(500);
-                        }
-                        if(n>7 && n<15)
-                        {
-                            cout<<"Impressive...";
-                            Sleep(500);
-                        }
-                        if(n>14)
-                        {
-                            cout<<"I wish you luck!";
-                            Sleep(500);
-                        }
-                        system("cls");
-                        char red[] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };
-                        char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
+					    return 1;
+                    }break;
+					case 1:
+					{
+					    return 0;
+
+					} break;
+				}break;
+			}
+		}
+
+		Sleep(150);
+	}
+}
+int Again()
+{
+    string Again[2] = {"Yes", "No"};
+	int pointer = 0;
+
+	while(true)
+	{
+		system("cls");
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+		cout << "Again?\n\n";
+
+		for (int i = 0; i < 2; ++i)
+		{
+			if (i == pointer)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+				cout << Menu[i] << endl;
+			}
+			else
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+				cout << Menu[i] << endl;
+			}
+		}
+
+		while(true)
+		{
+			if (GetAsyncKeyState(VK_UP) != 0)
+			{
+				pointer -= 1;
+				if (pointer == -1)
+				{
+					pointer = 1;
+				}
+				break;
+			}
+			else if (GetAsyncKeyState(VK_DOWN) != 0)
+			{
+				pointer += 1;
+				if (pointer == 2)
+				{
+					pointer = 0;
+				}
+				break;
+			}
+			else if (GetAsyncKeyState(VK_RETURN) != 0)
+			{
+				switch (pointer)
+				{
+					case 0:
+					{
+					    return 1;
+                    }break;
+					case 1:
+					{
+					    return 0;
+
+					} break;
+				}break;
+			}
+		}
+
+		Sleep(150);
+	}
+}
 
 
-                        int i, j;
-                        int q, r;
-                        for (i = 0; i < n; i++)
-                            for (j = 0; j < n; j++)
-                                b[i][j] = 'O';
-                        int bmb = n * 2;
-                        for (i = 0; i < bmb;i++)
+int main(int argc, char* argv[])
+{
+    srand(time(NULL));
+    int x=Menu();
+    while(x==1)
+        {
+            cout<<endl;
+            cout<<"\n\nCat de mare vrei sa fie terenul tau minat?";
+            cin>>n;
+            cout<<"Deci va fi de "<< n <<"x"<<n;
+            cout<<endl;
+            Sleep(1000);
+            while(n<4)
+                {
+                    cout<<"Prea mic, incearca din nou\n";
+                    cin>>n;
+                }
+            if(n<8)
+                {
+                    cout<<"Prea usor...";
+                    Sleep(1000);
+                }
+            if(n>7 && n<15)
+                {
+                    cout<<"Impresionant...";
+                    Sleep(1000);
+                }
+            if(n>14)
+                {
+                    cout<<"Succes!";
+                    Sleep(1000);
+                }
+            system("cls");
+            char red[] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };
+            char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
+
+
+            int i, j;
+            int q, r;
+            for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
+                b[i][j] = 'O';
+            int bmb = n * 2;
+            for (i = 0; i < bmb;i++)
+                {
+                    q = rand() % n;
+                    r = rand() % n;
+                    while (a[q][r] != 0)
                         {
                             q = rand() % n;
                             r = rand() % n;
-                            while (a[q][r] != 0)
-                            {
-                                q = rand() % n;
-                                r = rand() % n;
-                            }
-                            a[q][r] = -1;
                         }
-                        for (i = 0; i < n; i++)
-                            for (j = 0; j < n; j++)
-                                bmbselect(i, j);
-                        system("cls");
-                        int ok = 0;
-                        i = 0; j = 0;
-                        int p, k;
-                        int flags = 0, correctflags = 0;
-                        while (!ok)
+                    a[q][r] = -1;
+                }
+            for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
+                bmbselect(i, j);
+            system("cls");
+            int ok = 0;
+            i = 0; j = 0;
+            int p, k;
+            int flags = 0, correctflags = 0;
+            while (!ok)
+                {
+                    system("cls");
+                    if (flags == correctflags && flags == bmb)
                         {
-                            system("cls");
-                            if (flags == correctflags && flags == bmb)
-                            {
-                                ok = 1;
-                                for (p = 0; p < n; p++)
-                                    for (k = 0; k < n; k++)
-                                        if (b[p][k] == 'O')
-                                        {
-                                            ok = 0;
-                                        }
-                                if (ok)
-                                {
-
-                                    cout << "You win" << '\n';
-
-                                }
-                            }
+                            ok = 1;
                             for (p = 0; p < n; p++)
-                            {
-                                for (k = 0; k < n; k++)
+                            for (k = 0; k < n; k++)
+                                if (b[p][k] == 'O')
+                                    {
+                                        ok = 0;
+                                    }
+                                if (ok)
+                                    {
+                                        cout << "Wow! Ai castigat!" << '\n';
+                                    }
+                        }
+                    for (p = 0; p < n; p++)
+                        {
+                            for (k = 0; k < n; k++)
                                 {
                                     if (p == i && k == j)
                                         cout << "|";
@@ -204,11 +291,11 @@ int main(int argc, char* argv[])
                                         cout << ' ';
                                     cout << b[p][k] << " ";
                                 }
-                                cout << '\n';
-                            }
-                            int q = arrow();
-                            switch (q)
-                            {
+                            cout << '\n';
+                        }
+                    int q = arrow();
+                    switch (q)
+                        {
                             case 1:
                                 break;
                             case 2:
@@ -225,76 +312,65 @@ int main(int argc, char* argv[])
                                 break;
                             case 6:
                                 break;
-                            }
-                            if (i == n)
-                                i = n - 1;
-                            if (j == n)
-                                j = n - 1;
-                            if (j < 0)
-                                j = 0;
-                            if (i < 0)
-                                i = 0;
-                            if (q == 1 && a[i][j] == -1 && b[i][j] == 'O')
-                            {
-                                system("cls");
-                                cout << "YOU DIED" << '\n';
-                                b[i][j] = '*';
-                                for (p = 0; p < n; p++)
+                        }
+                    if (i == n)
+                        i = n - 1;
+                    if (j == n)
+                        j = n - 1;
+                    if (j < 0)
+                        j = 0;
+                    if (i < 0)
+                        i = 0;
+                    if (q == 1 && a[i][j] == -1 && b[i][j] == 'O')
+                        {
+                            system("cls");
+                            cout << "Haha! Ai murit!" << '\n';
+                            b[i][j] = '*';
+                            for (p = 0; p < n; p++)
                                 {
                                     for (k = 0; k < n; k++)
                                         if (a[p][k] == -1)
-                                        {
-
-                                            cout <<red<< "  B" << normal;
-
-                                        }
+                                            {
+                                                cout <<red<< "  B" << normal;
+                                            }
                                         else if (a[p][k] == 0)
                                             cout << "   ";
                                         else if (a[p][k] > 0)
                                             cout << "  " << a[p][k];
                                         else
                                             cout << "  " << b[p][k];
-                                    cout << '\n';
+                                        cout << '\n';
                                 }
+                                Sleep(10000);
                                 return 0;
-
-                            }
-                            if (q == 1 && b[i][j]!='?')
-                                lee(i, j);
-                            if (q == 6)
-                            {
-                                if (b[i][j] == '?')
+                        }
+                    if (q == 1 && b[i][j]!='?')
+                    lee(i, j);
+                    if (q == 6)
+                        {
+                            if (b[i][j] == '?')
                                 {
                                     if (a[i][j]==-1)
-                                    {
-                                        correctflags--;
-                                    }
+                                        {
+                                            correctflags--;
+                                        }
                                     b[i][j] = 'O';
                                     flags--;
                                 }
-                                else
+                            else
                                 {
                                     if (a[i][j] == -1)
-                                    {
-                                        correctflags++;
-                                    }
+                                        {
+                                            correctflags++;
+                                        }
                                     b[i][j] = 'B';
                                     flags++;
                                 }
-                            }
-
                         }
-					}break;
-					case 1:
-					{
-					    return 0;
 
-					} break;
-				}break;
-			}
-		}
-
-		Sleep(150);
-	}
+                }
+        }
+    return 0;
 }
+
 
